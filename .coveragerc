@@ -1,0 +1,7 @@
+[run]
+source =
+    tps_exness
+[report]
+show_missing = True
+omit =
+    tps_exness/__main__.py

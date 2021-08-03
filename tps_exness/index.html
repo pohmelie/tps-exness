@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>calculator</title>
+</head>
+
+<body>
+    <script>
+        function get_element_text_by_id(id) {
+            let e = document.getElementById(id)
+            return e.value
+        }
+        function calculate() {
+            let query = {
+                "count": parseInt(get_element_text_by_id("count")),
+                "price": parseFloat(get_element_text_by_id("price")),
+                "state": get_element_text_by_id("state"),
+            }
+            console.log(query)
+
+            fetch("/calculate", {
+                method: "POST",
+                body: JSON.stringify(query),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(response => {
+                console.log("response:", response);
+                return response.json()
+
+            }).then(data => {
+                console.log(data)
+                let e = document.getElementById("calculated_price")
+                e.innerHTML = data["calculated_price"].toString()
+            })
+        }
+    </script>
+
+    <div>Count:</div><input id="count"><br>
+    <div>Price:</div><input id="price"><br>
+    <div>State</div><input id="state"><br>
+    <button onclick="calculate()">Calculate</button><br>
+    <div>Calculated price:</div>
+    <div id="calculated_price">-</div>
+</body>
+</html>
